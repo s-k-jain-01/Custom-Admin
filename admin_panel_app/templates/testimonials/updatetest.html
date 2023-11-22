@@ -1,0 +1,47 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'updatetest' %}" method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for test in test %}
+                    <input type="text" name="test_id" value="{{test.id}}" class="form-control" id="inputEmail4" hidden>
+                    <div class="col-md-12">
+                        <label for="title" class="form-label">Title</label>
+                        <input type=" text" required name="title" id="title" class="form-control" value="{{test.test_title}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="image" class="form-label">Old Image :</label>
+                        <img class="img-fluid rounded" id="image" src="{{media}}{{test.test_img}}" style="height: 150px; width: 200px;">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="img" class="form-label">Image</label>
+                        <input type="file" name="img" id="img" class="form-control" id="inputEmail4" accept='image/*'>
+                    </div>
+                    <div>
+                        <label for="status" class="form-label">Status</label>
+                        <select required class="form-select" id="status" name="status" aria-label="Default select example">
+                            <option value="0" {% if test.delete_status == 0 %}selected{% endif %}>Active</option>
+                            <option value="1" {% if test.delete_status == 1 %}selected{% endif %}>Inactive</option>
+                          </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="desc" class="form-label">Description</label>
+                        <textarea id="editor" name="desc"  style="resize: none;" class="form-control" id="desc">{{test.test_desc}}</textarea>
+                    </div> 
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>  
+        </div>
+    </div>
+    
+</body>
+{% endblock 'content' %}

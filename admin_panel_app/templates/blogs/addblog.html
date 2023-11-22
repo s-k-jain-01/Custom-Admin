@@ -1,0 +1,37 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'addblog' %}" method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-md-12">
+                        <label for="topic" class="form-label">Topic</label>
+                        <input type=" text" required name="topic" class="form-control" id="topic">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="title" class="form-label">Title</label>
+                        <input type=" text" required name="title" class="form-control" id="title">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="img" class="form-label">Image</label>
+                        <input type="file" required name="img" class="form-control" id="img" accept='image/*'>
+                    </div>
+                    <div class="col-12">
+                        <label for="editor" class="form-label">Description</label>
+                        <textarea id="editor" name="desc" class="form-control" ></textarea>
+                    </div> 
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>  
+        </div>
+    </div>
+    
+</body>
+{% endblock 'content' %}

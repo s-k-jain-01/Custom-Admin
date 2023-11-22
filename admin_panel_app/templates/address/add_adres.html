@@ -1,0 +1,50 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'add_address' %}" method='post'>
+                    {% csrf_token %}
+                    <input type="hidden"  name="user" value="{{user.id}}" class="form-control" id="user">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type=" text" required name="name" class="form-control" id="name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="mobile_no" class="form-label">Mobile No</label>
+                        <input type="tel" required name="mobile_no" class="form-control" id="mobile_no">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="state" class="form-label">State</label>
+                        <input type="text" required name="state" class="form-control" id="state">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" minlength="6" maxlength="6" name="city" required class="form-control" id="city">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="locality" class="form-label">Locality</label>
+                        <input type="text" required name="locality" class="form-control" id="locality">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="pin" class="form-label">Pin</label>
+                        <input type="number" required name="pin" class="form-control" id="pin">
+                    </div>
+                    <div class="col-12">
+                        <label for="address" class="form-label">Address</label>
+                        <textarea id="address" name="address" class="form-control"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+{% endblock 'content' %}

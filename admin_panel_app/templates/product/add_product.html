@@ -1,0 +1,136 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'add_product' %}" method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-md-6">
+                        <label for="sub_cat" class="form-label">Sub Category</label>
+                        <select class="form-select" required id="sub_cat" name="sub_cat" aria-label="Default select example">
+                            <option selected disabled value="">--Select--</option>
+                            {% for sub_cat in sub_cat %}
+                            <option value="{{sub_cat.id}}">{{sub_cat.sub_cat_name}}</option>
+                            {% endfor %}
+
+                          </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="company" class="form-label">Company</label>
+                        <select class="form-select" required id="company" name="company" aria-label="Default select example">
+                            <option selected disabled value="">--Select--</option>
+                            {% for company in company %}
+                            <option value="{{company.id}}">{{company.company_name}}</option>
+                            {% endfor %}
+
+                          </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Name</label>
+                        <input type=" text" required name="name" class="form-control" id="name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="text" required name="price" class="form-control" id="price" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="stock" class="form-label">Stock</label>
+                        <select class="form-select" required name="stock" id="stock" aria-label="Default select example">
+                            <option selected disabled value="">--Select--</option>
+                            <option value="0">Available</option>
+                            <option value="1">Not Available</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="varient" class="form-label">Varient</label>
+                        <select class="form-select" required name="varient" id="varient" aria-label="Default select example">
+                            <option selected disabled value="">--Select--</option>
+                            <option value="0">Other</option>
+                            <option value="1">Liquid</option>
+                            <option value="2">Powder</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="discount_price" class="form-label">Discount Price</label>
+                        <input type="text" required name="discount_price" class="form-control" id="discount_price" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="qty_type" class="form-label">Quantity Type</label>
+                        <input type="text" required name="qty_type" class="form-control" id="qty_type" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" required name="quantity" class="form-control" id="quantity" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="img" class="form-label">Image</label>
+                        <input type="file" required name="img"  class="form-control" id="img" accept='image/*'>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="img" class="form-label">Add Other Images</label>
+                        <input type="file" required name="prduct_img[]" multiple class="form-control" id="img" accept='image/*'>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="img" class="form-label"> Add Quantity & Price</label>
+                            <button class="btn " id="plusButton">+</button>
+                            <button class="btn" id="minusButton">-</button>
+                        </div>
+                            <div class="col-md-12" id="inputContainer">
+                             </div>
+                           
+                    <div class="col-12">
+                        <label for="editor" class="form-label">Description</label>
+                        <textarea id="editor" name="desc" class="form-control"></textarea>
+                    </div> 
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>  
+        </div>
+    </div>
+    
+</body>
+<script>
+    const plusButton = document.getElementById("plusButton");
+    const minusButton = document.getElementById("minusButton");
+    const inputContainer = document.getElementById("inputContainer");
+    let inputCount = 0;
+
+    plusButton.addEventListener("click", () => {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.name='q_price[]';
+        input.placeholder = "enter Price ";
+        inputContainer.appendChild(input);
+        inputCount++;
+    });
+    plusButton.addEventListener("click", () => {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.name='quantity[]';
+        input.placeholder = "Enter quantity ";
+        inputContainer.appendChild(input);
+        inputCount++;
+    });
+
+
+    minusButton.addEventListener("click", () => {
+        if (inputCount > 0) {
+            inputContainer.removeChild(inputContainer.lastChild);
+            inputCount--;
+        }
+    });
+    minusButton.addEventListener("click", () => {
+        if (inputCount > 0) {
+            inputContainer.removeChild(inputContainer.lastChild);
+            inputCount--;
+        }
+    });
+</script>
+{% endblock 'content' %}
+

@@ -1,0 +1,91 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header pb-0">
+          <div class="d-flex align-items-center">
+            <p class="mb-0"> Profile Detail</p>
+            {% comment %} <a href="{% url 'userlist' %}"><button class="btn btn-primary btn-sm ms-auto">back to list</button></a> {% endcomment %}
+          </div>
+        </div>
+        <form action="{% url 'profile_detail' %}" method="post">
+          {% csrf_token %}
+          {% for i in user %}
+          <input type="hidden" name="user_id" value="{{i.id}}">
+          <div class="card-body">
+            <p class="text-uppercase text-sm">User Information</p>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">Username</label>
+                  <input class="form-control" type="text" value="{{i.username}}" readonly>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">Email address</label>
+                  <input class="form-control" type="email" value="{{i.email}}" readonly>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">First name</label>
+                  <input class="form-control" type="text" value="{{i.first_name}}" readonly>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">Last name</label>
+                  <input class="form-control" type="text" value="{{i.last_name}}" readonly>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="block" class="form-label">Status</label>
+                <select class="form-select" required name="block" id="block" aria-label="Default select example">
+                    <option value="1" {% if i.delete_status == 1 %}selected{% endif %}>Block</option>
+                    <option value="0" {% if i.delete_status == 0 %}selected{% endif %}>Unblock</option>
+                  </select>
+            </div>
+            </div>
+            <hr class="horizontal dark">
+            <p class="text-uppercase text-sm">Contact Information</p>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">Contact No:</label>
+                  <input class="form-control" type="text" value="{{i.mobile_no}}" name="mobile_no" readonly>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">Address</label>
+                  <input class="form-control" type="text" value="{{i.address}}" readonly>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">City</label>
+                  <input class="form-control" type="text" value="{{i.city}}" readonly>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">Postal code</label>
+                  <input class="form-control" type="text" value="{{i.postal_code}}" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

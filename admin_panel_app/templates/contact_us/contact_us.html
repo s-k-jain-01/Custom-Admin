@@ -1,0 +1,135 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+          <h6>Contact Us</h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sr. No.</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Mobile No.</th>
+
+
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Message
+                  </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Reply
+                    Message
+                  </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Created At</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Updated At</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status
+                  </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Call Now
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="searching">
+                {% for contact_us in contact_obj %}
+                <tr>
+                  <td class="align-middle text-center">{{forloop.counter0|add:contact_obj.start_index}}.</td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">{{contact_us.first_name}} {{contact_us.last_name}}</h6>
+                        <p class="text-xs text-secondary mb-0">{{contact_us.email}}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="text-secondary text-xs font-weight-bold">{{contact_us.mobile_no}}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{contact_us.msg}}</span>
+                  </td>
+                  {% if contact_us.reply_msg %}
+                  <td class="align-middle text-center text-sm">
+                    <span class="text-secondary text-xs font-weight-bold">{{contact_us.reply_msg}}</span>
+                  </td>
+                  {% else %}
+                  <td class="align-middle text-center text-sm">
+                    <span class="text-secondary text-xs text-danger font-weight-bold">Not Replied</span>
+                  </td>
+                  {% endif %}
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{contact_us.created_at}}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{contact_us.updated_at}}</span>
+                  </td>
+
+                  <td class="align-middle text-center">
+                    {% if contact_us.reply_msg %}
+                    <span class="btn btn-success btn-sm ms-auto mb-0 font-weight-bold text-xs">Replied</span>
+                    {% else %}
+                    <a href="{% url 'reply_customer' %}?contact_id={{contact_us.id}}" class="font-weight-bold text-xs"
+                      data-toggle="tooltip" data-original-title="Edit user">
+                      <span class="btn btn-warning btn-sm ms-auto mb-0">Reply</span>
+                    </a>
+                    {% endif %}
+                  </td>
+                  <td class="align-middle text-center">
+                    <a href="tel:{{contact_us.mobile_no}}" class="text-secondary text-xs font-weight-bold"><i
+                        class="fa fa-phone fa-2x" aria-hidden="true"></i></a>
+                  </td>
+
+
+
+                </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if contact_obj.paginator.num_pages != 1 %}
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% if contact_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{contact_obj.previous_page_number}}">{{
+          contact_obj.previous_page_number }}</a></li>
+      {% endif %}
+      <li class="page-item active"><a class="page-link" href="#">{{contact_obj.number}}</a></li>
+      {% if contact_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{contact_obj.next_page_number}}">{{
+          contact_obj.next_page_number }}</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{contact_obj.paginator.num_pages}}">Last</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+</div>
+</main>
+<!--   Core JS Files   -->
+<script src="{% static '/assets/js/core/popper.min.js' %}"></script>
+<script src="{% static '/assets/js/core/bootstrap.min.js' %}"></script>
+<script src="{% static '/assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static '/assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+<script>
+  var win = navigator.platform.indexOf('Win') > -1;
+  if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
+      damping: '0.5'
+    }
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+  }
+</script>
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="{% static '/assets/js/argon-dashboard.min.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'adduser' %}" method='post'>
+                    {% csrf_token %}
+                    {% if request.user.is_staff %}
+                    <div class="col-md-12">
+                        <label for="user_type" class="form-label">User Type</label>
+                        <select class="form-select" required name="user_type" id="user_type" aria-label="Default select example">
+                            <option selected disabled value="">--Select--</option>
+                            <option value="0">User</option>
+                            <option value="1">Distributer</option>
+                            {% if not request.user.is_staff or request.user.is_superuser %}
+                                <option value="2">Staff</option>
+                            {% endif %}
+                          </select>
+                    </div>
+                    {% else %}
+                    <input type="hidden" name="user_type" value="0">
+                    {% endif %}
+                    <div class="col-md-6">
+                        <label for="fname" class="form-label">First Name</label>
+                        <input type="text" required name="fname" class="form-control" id="fname">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lname" class="form-label">Last Name</label>
+                        <input type=" text" required name="lname" class="form-control" id="lname">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="username" class="form-label">username</label>
+                        <input type="text" required name="username" class="form-control" id="username">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" required name="email" class="form-control" id="email">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="mobile_no" class="form-label">Mobile No</label>
+                        <input type="text" required name="mobile_no" class="form-control" id="mobile_no">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" required name="password" class="form-control" id="password">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" name="city" required class="form-control" id="city">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="postal_code" class="form-label">Pin Code</label>
+                        <input type="text" minlength="6" maxlength="6" name="postal_code" required class="form-control" id="postal_code">
+                    </div>
+                    <div class="col-12">
+                        <label for="address" class="form-label">Address</label>
+                        <textarea style="resize: none;" required name="address" class="form-control" id="address"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+{% endblock 'content' %}

@@ -1,0 +1,40 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'update_company' %}" method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for i in cmpny %}
+                    <input type="text" name="cmpny_id" value="{{i.id}}" class="form-control" id="inputEmail4" hidden>
+
+                    <div class="col-md-6">
+                        <label for="company_name" class="form-label">Company Name</label>
+                        {% if i.id != 3 %}
+                        <input required type="text" name="company_name" value="{{i.company_name}}" class="form-control" id="company_name">
+                        {% else %}
+                        <input readonly required type="text" name="company_name" value="{{i.company_name}}" class="form-control" id="company_name">
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" required name="status" id="status" aria-label="Default select example">
+                            <option value="0" {% if i.delete_status == 0 %}selected{% endif %}>Active</option>
+                            <option value="1" {% if i.delete_status == 1 %}selected{% endif %}>Inactive</option>
+                          </select>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>  
+        </div>
+    </div> 
+    
+</body>
+{% endblock  %}

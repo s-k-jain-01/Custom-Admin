@@ -1,0 +1,53 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'update_adres' %}" method='post'>
+                    {% csrf_token %}
+                    {% for adres in adres %}
+                    <input type="hidden" name="adres_id" value="{{adres.id}}">
+                    <input type="hidden" name="user_id" value="{{adres.custuser.id}}">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type=" text" required name="name" class="form-control" value="{{adres.name}}" id="name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="mobile_no" class="form-label">Mobile No</label>
+                        <input type="tel" required name="mobile_no" class="form-control" value="{{adres.mobile}}" id="mobile_no">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="state" class="form-label">State</label>
+                        <input type="text" required name="state" class="form-control" value="{{adres.state}}" id="state">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" minlength="6" maxlength="6" name="city" required class="form-control" value="{{adres.city}}" id="city">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="locality" class="form-label">Locality</label>
+                        <input type="text" required name="locality" class="form-control" value="{{adres.locality}}" id="locality">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="pin" class="form-label">Pin</label>
+                        <input type="number" required name="pin" class="form-control" value="{{adres.pin}}" id="pin">
+                    </div>
+                    <div class="col-12">
+                        <label for="address" class="form-label">Address</label>
+                        <textarea required name="address" class="form-control" id="address">{{adres.adres}}</textarea>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+{% endblock 'content' %}

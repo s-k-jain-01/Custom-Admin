@@ -1,0 +1,31 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'update_order' %}" method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for i in order %}
+                    <input type="text" name="order_id" value="{{i.id}}" class="form-control" id="inputEmail4" hidden>
+                    <div>
+                        <label for="booking_status" class="form-label">Booking Status</label>
+                        <select class="form-select" required name="booking_status" id="booking_status" aria-label="Default select example">
+                            <option value="0" {% if i.booking_status == 0 %}selected{% endif %}>Waiting</option>
+                            <option value="1" {% if i.booking_status == 1 %}selected{% endif %}>Booked</option>
+                          </select>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>  
+        </div>
+    </div> 
+    
+</body>
+{% endblock  %}

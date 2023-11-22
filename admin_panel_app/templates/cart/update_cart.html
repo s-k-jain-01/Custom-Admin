@@ -1,0 +1,29 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'update_cart' %}" method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for i in cart %}
+                    <input type="text" name="cart_id" value="{{i.id}}" class="form-control" id="inputEmail4" hidden>
+
+                    <div class="col-md-6">
+                        <label for="qty" class="form-label">Quantity</label>
+                        <input required type="text" name="qty" value="{{i.quantity}}" class="form-control" id="qty">
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>  
+        </div>
+    </div> 
+    
+</body>
+{% endblock  %}

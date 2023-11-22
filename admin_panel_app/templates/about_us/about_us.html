@@ -1,0 +1,100 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+          <h6>About Us</h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Description</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Created At</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Updated At</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Deleted
+                    Status
+                  </th>
+
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for about in about_us %}
+                <tr>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div>
+                        <img src="{{about.about_img.url}}" class="avatar avatar-sm me-3" alt="user1">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">{{about.about_title}}</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">{{about.about_desc|safe|truncatechars:50}}</p>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{about.created_at}}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{about.updated_at}}</span>
+                  </td>
+                  {% if about.delete_status == 0 %}
+                  <td class="align-middle text-center text-sm">
+                    <span class="badge badge-sm bg-gradient-success">Active</span>
+                  </td>
+                  {% else %}
+                  <td class="align-middle text-center text-sm">
+                    <span class="badge badge-sm bg-gradient-danger">Inactive</span>
+                  </td>
+                  {% endif %}
+
+                  <td class="align-middle text-center">
+                    <a href="{% url 'update_about' %}?id={{about.id}}" class="text-secondary font-weight-bold text-xs"
+                      data-toggle="tooltip" data-original-title="Edit user">
+                      Edit
+                    </a>
+                  </td>
+
+
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+<!--   Core JS Files   -->
+<script src="{% static '/assets/js/core/popper.min.js' %}"></script>
+<script src="{% static '/assets/js/core/bootstrap.min.js' %}"></script>
+<script src="{% static '/assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static '/assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+<script>
+  var win = navigator.platform.indexOf('Win') > -1;
+  if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
+      damping: '0.5'
+    }
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+  }
+</script>
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="{% static '/assets/js/argon-dashboard.min.js' %}"></script>
+{% endblock %}

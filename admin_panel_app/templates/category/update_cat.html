@@ -1,0 +1,51 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'update_cat' %}" method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for cat in cat %}
+                    <input type="text" name="cat_id" value="{{cat.id}}" class="form-control" id="inputEmail4" hidden>
+                    <div class="col-md-12">
+                        <label for="name" class="form-label">Name</label>
+                        {% if cat.id != 7 %}
+                        <input required type=" text" name="name" id="name" class="form-control" id="inputEmail4" value="{{cat.cat_name}}">
+                        {% else %}
+                        <input required readonly type=" text" name="name" id="name" class="form-control" id="inputEmail4" value="{{cat.cat_name}}">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="image" class="form-label">Old Image :</label>
+                        <img class="img-fluid rounded" id="image" src="{{media}}{{cat.cat_img}}" style="height: 150px; width: 200px;">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="img" class="form-label">Image</label>
+                        <input type="file" name="img" id="img" class="form-control" id="inputEmail4" accept='image/*'>
+                    </div>
+                    <div>
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" required id="status" name="status" aria-label="Default select example">
+                            <option value="0" {% if cat.delete_status == 0 %}selected{% endif %}>Active</option>
+                            <option value="1" {% if cat.delete_status == 1 %}selected{% endif %}>Inactive</option>
+                          </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="desc" class="form-label">Description</label>
+                        <textarea id="editor" name="desc" required style="resize: none;" class="form-control" id="desc">{{cat.cat_desc}}</textarea>
+                    </div> 
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>  
+        </div>
+    </div>
+    
+</body>
+{% endblock 'content' %}

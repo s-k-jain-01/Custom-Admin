@@ -1,0 +1,36 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'reply_customer' %}" method='post'>
+                    {% csrf_token %}
+                    {% for contact in contact %}
+                    <input type="hidden" name="contact_id" value="{{contact.id}}">
+                    <div class="col-md-12">
+                        <label for="mail" class="form-label">To:</label>
+                        <input type="email" required name="mail" class="form-control" id="mail" value="{{contact.email}}" readonly>
+                    </div>
+                    {% endfor %}
+                    <div class="col-md-12">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type=" text" required name="subject" class="form-control" id="subject">
+                    </div>
+                    <div class="col-12">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea style="resize: none;" required name="message" class="form-control" id="message"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+{% endblock 'content' %}

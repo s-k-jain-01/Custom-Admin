@@ -1,0 +1,52 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'updateblog' %}" method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for i in blog %}
+                    <input type="text" name="blog_id" value="{{i.id}}" class="form-control" id="inputEmail4" hidden>
+
+                    <div class="col-md-6">
+                        <label for="topic" class="form-label">Topic</label>
+                        <input required type="text" name="topic" value="{{i.blog_topic}}" class="form-control" id="topic">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="title" class="form-label">Title</label>
+                        <input required type=" text" name="title" value='{{i.blog_title}}' class="form-control" id="title">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="image" class="form-label">Old Image :</label>
+                        <img class="img-fluid rounded" id="image" src="{{media}}{{i.blog_img}}" style="height: 150px; width: 200px;">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="img" class="form-label">New Image</label>
+                        <input type="file" name="img" class="form-control"  id="img" accept='image/*'>
+                    </div>
+                    <div>
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" required name="status" id="status" aria-label="Default select example">
+                            <option value="0" {% if i.delete_status == 0 %}selected{% endif %}>Active</option>
+                            <option value="1" {% if i.delete_status == 1 %}selected{% endif %}>Inactive</option>
+                          </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="desc" class="form-label">Description</label>
+                        <textarea id="editor" name="desc" required style="resize: none;" class="form-control" id="desc">{{i.blog_desc}}</textarea>
+                    </div> 
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>  
+        </div>
+    </div> 
+    
+</body>
+{% endblock  %}

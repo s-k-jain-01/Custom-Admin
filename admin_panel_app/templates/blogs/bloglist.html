@@ -1,0 +1,132 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+          <h6>Blogs table</h6>
+          <a href="{% url 'addblog' %}" class="btn bg-gradient-primary mb-0">Add Blog</a>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sr. No.</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Topic</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Description</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Created At</th>
+
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Updated At
+                  </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delete
+                    Status
+                  </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action
+                  </th>
+                  <th class="text-secondary opacity-7"></th>
+                </tr>
+              </thead>
+              <tbody id="searching">
+                {% for blog in blog_obj %}
+                <tr>
+                  <td class="align-middle text-center">{{forloop.counter0|add:blog_obj.start_index}}.</td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div>
+                        <img src="{{blog.blog_img.url}}" class="avatar avatar-sm me-3" alt="user1">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">{{blog.blog_title|truncatechars:30}}</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">{{blog.blog_topic|truncatechars:30}}</p>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span
+                      class="text-secondary text-xs font-weight-bold">{{blog.blog_desc|safe|truncatechars:30}}</span>
+                  </td>
+
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{blog.created_at}}</span>
+                  </td>
+
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{blog.updated_at}}</span>
+                  </td>
+
+                  {% if blog.delete_status == 0 %}
+                  <td class="align-middle text-center text-sm">
+                    <span class="badge badge-sm bg-gradient-success">Active</span>
+                  </td>
+                  {% else %}
+                  <td class="align-middle text-center text-sm">
+                    <span class="badge badge-sm bg-gradient-danger">Inactive</span>
+                  </td>
+                  {% endif %}
+
+                  <td class="align-middle text-center">
+                    <a href="{% url 'updateblog' %}?blog_id={{blog.id}}" class="text-secondary font-weight-bold text-xs"
+                      data-toggle="tooltip" data-original-title="Edit user">
+                      Edit
+                    </a>
+                    <a href="{% url 'deleteblog' %}?blog_id={{blog.id}}"
+                      class="ms-3 text-danger font-weight-bolder text-xs" data-toggle="tooltip"
+                      data-original-title="Edit user">
+                      Delete
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if blog_obj.paginator.num_pages != 1 %}
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% if blog_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{blog_obj.previous_page_number}}">{{
+          blog_obj.previous_page_number }}</a></li>
+      {% endif %}
+      <li class="page-item active"><a class="page-link" href="#">{{blog_obj.number}}</a></li>
+      {% if blog_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{blog_obj.next_page_number}}">{{ blog_obj.next_page_number
+          }}</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{blog_obj.paginator.num_pages}}">Last</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+</div>
+</main>
+<!--   Core JS Files   -->
+<script src="{% static '/assets/js/core/popper.min.js' %}"></script>
+<script src="{% static '/assets/js/core/bootstrap.min.js' %}"></script>
+<script src="{% static '/assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static '/assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+<script>
+  var win = navigator.platform.indexOf('Win') > -1;
+  if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
+      damping: '0.5'
+    }
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+  }
+</script>
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="{% static '/assets/js/argon-dashboard.min.js' %}"></script>
+{% endblock 'content' %}

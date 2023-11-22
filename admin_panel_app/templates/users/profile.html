@@ -1,0 +1,112 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+  <!-- End Navbar -->
+  <div class="container">
+    <div class="container-fluid py-4">
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for i in user %}
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header pb-0">
+                <div class="d-flex align-items-center justify-content-between">
+                  <p class="mb-0">Edit Profile</p> <a href="{% url 'Change_Password' %}"><span
+                      class="btn btn-primary btn-sm ms-auto mb-0">Change Password</span></a>
+                </div>
+              </div>
+              <div class="card-body">
+                <p class="text-uppercase text-sm">User Information</p>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Username</label>
+                      <input readonly class="form-control" name="username" type="text" value="{{i.username}}">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Email address</label>
+                      <input class="form-control" type="email" value="{{i.email}}" name='email'>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">First name</label>
+                      <input class="form-control" type="text" value="{{i.first_name}}" name="first_name">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Last name</label>
+                      <input class="form-control" type="text" name="last_name" value="{{i.last_name}}">
+                    </div>
+                  </div>
+                </div>
+                <hr class="horizontal dark">
+                <p class="text-uppercase text-sm">Contact Information</p>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Contact No:</label>
+                      <input class="form-control" type="text" value="{{i.mobile_no}}" name="mobile_no">
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Address</label>
+                      <input class="form-control" type="text" value="{{i.address}}" name="address">
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">City</label>
+                      <input class="form-control" type="text" value="{{i.city}}" name="city">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Postal code</label>
+                      <input class="form-control" type="text" value="{{i.postal_code}}" name="postal_code">
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {% endfor %}
+      </form>
+    </div>
+  </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="{% static '/assets/js/core/popper.min.js' %}"></script>
+  <script src="{% static '/assets/js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static '/assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+  <script src="{% static '/assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="{% static '/assets/js/argon-dashboard.min.js' %}"></script>
+</body>
+
+</html>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'update_product' %}" method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for product in product %}
+                    <input type="hidden" name="pro_id" value="{{product.id}}">
+                    <div class="col-md-6">
+                        <label for="image" class="form-label">Old Image :</label>
+                        <img class="img-fluid rounded" id="image" src="{{media}}{{product.pro_img}}" style="height: 150px; width: 200px;">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="sub_cat" class="form-label">Sub Category</label>
+                        <select required class="form-select" id="sub_cat" name="sub_cat" aria-label="Default select example">
+                            {% for sub_cat in sub_cat %}
+                            <option value="{{sub_cat.id}}" {% if sub_cat == product.sub_cat %}selected{% endif %}>{{sub_cat.sub_cat_name}}</option>
+                            {% endfor %}
+
+                          </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="company" class="form-label">Company</label>
+                        <select class="form-select" required id="company" name="company" aria-label="Default select example">
+                            {% for company in company %}
+                            <option value="{{company.id}}" {% if company == product.company_name %}selected{% endif %}>{{company.company_name}}</option>
+                            {% endfor %}
+
+                          </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Name</label>
+                        <input type=" text" required name="name" class="form-control" id="name" value="{{product.pro_name}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="text" required name="price" class="form-control" id="price" value="{{product.pro_price}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="stock" class="form-label">Stock</label>
+                        <select class="form-select" required name="stock" id="stock" aria-label="Default select example">
+                            <option value="0" {% if product.stock == 0 %}selected{% endif %}>Available</option>
+                            <option value="1" {% if product.stock == 1 %}selected{% endif %}>Not Available</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="varient" class="form-label">Varient</label>
+                        <select class="form-select" required name="varient" id="varient" aria-label="Default select example">
+                            <option value="0" {% if product.varient == 0 %}selected{% endif %}>Other</option>
+                            <option value="1" {% if product.varient == 1 %}selected{% endif %}>Liquid</option>
+                            <option value="2" {% if product.varient == 2 %}selected{% endif %}>Powder</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="discount_price" class="form-label">Discount Price</label>
+                        <input type="text" required name="discount_price" class="form-control" id="discount_price" value="{{product.discount_price}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="qty_type" class="form-label">Quantity Type</label>
+                        <input type="text" required name="qty_type" class="form-control" id="qty_type" value="{{product.qty_type}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" required min="1" max="5" name="quantity" class="form-control" id="quantity" value="{{product.quantity}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="img" class="form-label">Image</label>
+                        <input type="file" name="img" class="form-control" id="img" accept='image/*'>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="status" class="form-label">Status</label>
+                        <select required class="form-select" name="status" id="status" aria-label="Default select example">
+                            <option value="0" {% if product.delete_status == 0 %}selected{% endif %}>Active</option>
+                            <option value="1" {% if product.delete_status == 1 %}selected{% endif %}>Inactive</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="desc" class="form-label">Description</label>
+                        <textarea id="editor" required style="resize: none;" name="desc" class="form-control" id="desc">{{product.pro_desc}}</textarea>
+                    </div> 
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>  
+        </div>
+    </div>
+    
+</body>
+{% endblock 'content' %}

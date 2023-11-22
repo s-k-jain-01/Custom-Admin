@@ -1,0 +1,60 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'addorder' %}" method='post'>
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{user_id}}">
+                    <div class="col-md-12">
+                        <label for="cart" class="form-label">Products in Cart</label>
+                        <select disabled class="form-select" multiple required name="cart" id="cart" aria-label="Default select example">
+                            {% comment %} <option selected disabled value="">--Select--</option> {% endcomment %}
+                            {% for cart in cart %}
+                            <option  selected value="{{cart.id}}">{{cart}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="address" class="form-label">Address</label>
+                        <select class="form-select" required name="address" id="address" aria-label="Default select example">
+                            <option selected disabled value="">--Select--</option>
+                            {% for address in address %}
+                            <option value="{{address.id}}">{{address}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="total_price" class="form-label">Total Price</label>
+                        <input type=" text" readonly required name="total_price" class="form-control" value="{{total_price}}" id="total_price">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="tax" class="form-label">Tax</label>
+                        <input type=" text" required name="tax" class="form-control" id="tax">
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary" id="submitButton">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Function to remove the "disabled" attribute from the select element and submit the form
+        document.getElementById("submitButton").addEventListener("click", function() {
+            // Remove the "disabled" attribute from the select element
+            document.getElementById("cart").removeAttribute("disabled");
+            
+            // Submit the form
+            document.getElementById("myForm").submit();
+        });
+    });
+</script>
+{% endblock 'content' %}

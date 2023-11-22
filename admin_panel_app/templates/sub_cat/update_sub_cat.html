@@ -1,0 +1,61 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-6 bg-white rounded">
+                <form class="row g-3" action="{% url 'update_sub_cat' %}" method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for sub_cat in sub_cat %}
+                    <input type="text" name="sub_cat_id" value="{{sub_cat.id}}" class="form-control" id="inputEmail4" hidden>
+                    <div>
+                        <label for="category" class="form-label">Category</label>
+                        <select required class="form-select" id="category" name="category" aria-label="Default select example">
+                            <option value="5">Other</option>
+                            {% for category in category %}
+                            <option value="{{category.id}}" {% if category == sub_cat.category %}selected{% endif %}>{{category.cat_name}}</option>
+                            {% endfor %}
+
+                          </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="name" class="form-label">Name</label>
+                        {% if sub_cat.id != 5 %}
+                        <input type=" text" required name="name" id="name" class="form-control" id="inputEmail4" value="{{sub_cat.sub_cat_name}}">
+                        {% else %}
+                        <input type=" text" readonly required name="name" id="name" class="form-control" id="inputEmail4" value="{{sub_cat.sub_cat_name}}">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="image" class="form-label">Old Image :</label>
+                        <img class="img-fluid rounded" id="image" src="{{media}}{{sub_cat.sub_cat_img}}" style="height: 150px; width: 200px;">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="img" class="form-label">Image</label>
+                        <input type="file" name="img" id="img" class="form-control" id="inputEmail4" accept='image/*'>
+                    </div>
+                    <div>
+                        <label for="status" class="form-label">Status</label>
+                        <select required class="form-select" id="status" name="status" aria-label="Default select example">
+                            <option value="0" {% if sub_cat.delete_status == 0 %}selected{% endif %}>Active</option>
+                            <option value="1" {% if sub_cat.delete_status == 1 %}selected{% endif %}>Inactive</option>
+                          </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="desc" class="form-label">Description</label>
+                        <textarea id="editor" name="desc" required style="resize: none;" class="form-control" id="desc">{{sub_cat.sub_cat_desc}}</textarea>
+                    </div> 
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>  
+        </div>
+    </div>
+    
+</body>
+{% endblock 'content' %}

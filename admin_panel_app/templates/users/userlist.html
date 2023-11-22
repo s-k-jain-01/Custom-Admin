@@ -1,0 +1,181 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block 'content' %}
+<div class="container-fluid py-4">
+  <div class="row">
+
+    <div class="col-12">
+
+      <div class="card mb-4">
+        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+          <h6>Users table</h6>
+          <a href="{% url 'adduser' %}" class="btn bg-gradient-primary mb-0">Add User</a>
+        </div>
+
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+
+              <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sr. No.</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status
+                  </th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">City</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Postal Code</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Address</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created At
+                  </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mobile No.
+                  </th>
+                  {% if request.user.is_staff or request.user.is_superuser %}
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action
+                  </th>
+                  {% endif %}
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+                </tr>
+              </thead>
+              <tbody id="searching">
+                {% for user in user_obj %}
+                <tr>
+                  <td class="align-middle text-center text-sm">{{forloop.counter0|add:user_obj.start_index}}.</td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center">
+                        <a href="{% url 'profile_detail' %}?user_id={{user.id}}">
+                          <h6 class="mb-0 text-sm">{{user.get_full_name}}</h6>
+                        </a>
+                        <p class="text-xs text-secondary mb-0">{{user.email}}</p>
+                      </div>
+                    </div>
+                  </td>
+                  {% if user.delete_status == 1 %}
+                  <td class="align-middle text-center text-sm">
+                    <span class="badge badge-sm bg-gradient-danger">Block</span>
+                  </td>
+                  {% else %}
+                  <td class="align-middle text-center text-sm">
+                    <span class="badge badge-sm bg-gradient-success">Unblock</span>
+                  </td>
+                  {% endif %}
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.city}}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.postal_code}}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.address}}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.created_at}}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.mobile_no}}</span>
+                  </td>
+
+
+                  {% if request.user.is_staff or request.user.is_superuser %}
+                  <td class="align-middle text-center">
+                    <a href="#" class="ms-3 text-danger font-weight-bolder text-xs delete-user-link"
+                      data-user-id="{{ user.id }}" data-toggle="tooltip" data-original-title="Delete user">
+                      Delete
+                    </a>
+                  </td>
+
+                  {% endif %}
+                  {% if user.user_type == 0 and not user.is_staff %}
+                  <td class="align-middle text-center">
+                    <button style="background: none;border: none;"
+                      class="ms-3 text-secondary font-weight-bolder text-xs" type="button" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="{% url 'addorder' %}?user_id={{user.id}}">Order Now</a></li>
+                      <li><a class="dropdown-item" href="{% url 'orderlist' %}?user_id={{user.id}}">Orders</a></li>
+                      <li><a class="dropdown-item" href="{% url 'cart_list' %}?user_id={{user.id}}">Carts</a></li>
+                      <li><a class="dropdown-item" href="{% url 'address_list' %}?user_id={{user.id}}">Addresses</a>
+                      </li>
+                    </ul>
+                  </td>
+                  {% else %}
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"></span>
+                  </td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if user_obj.paginator.num_pages != 1 %}
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% if user_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{user_obj.previous_page_number}}">{{
+          user_obj.previous_page_number }}</a></li>
+      {% endif %}
+      <li class="page-item active"><a class="page-link" href="#">{{user_obj.number}}</a></li>
+      {% if user_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{user_obj.next_page_number}}">{{ user_obj.next_page_number
+          }}</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{user_obj.paginator.num_pages}}">Last</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+</div>
+</main>
+<!--   Core JS Files   -->
+<script src="{% static '/assets/js/core/popper.min.js' %}"></script>
+<script src="{% static '/assets/js/core/bootstrap.min.js' %}"></script>
+<script src="{% static '/assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static '/assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+<script>
+  var win = navigator.platform.indexOf('Win') > -1;
+  if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
+      damping: '0.5'
+    }
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+  }
+</script>
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="{% static '/assets/js/argon-dashboard.min.js' %}"></script>
+<script>
+  // Function to handle the click event
+  document.querySelectorAll('.delete-user-link').forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      var userId = this.getAttribute('data-user-id');
+      fetch('{% url "delete_user" %}?user_id=' + userId, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          if (response.status === 200) {
+            this.closest('tr').remove();
+          } else {
+            console.error('Failed to delete user');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    });
+  });
+</script>
+{% endblock %}
